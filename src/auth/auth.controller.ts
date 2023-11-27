@@ -10,7 +10,12 @@ export class AuthController {
 
   @Post('signup')
   @ApiOperation({ summary: 'Sign up' })
-  @ApiBody({ type: AuthDto })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: { email: { type: 'string' }, password: { type: 'string' } },
+    },
+  })
   @ApiResponse({
     status: 201,
     description: 'The user has been successfully created.',
@@ -23,7 +28,12 @@ export class AuthController {
   @HttpCode(200)
   @Post('signin')
   @ApiOperation({ summary: 'Sign in' })
-  @ApiBody({ type: AuthDto })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: { email: { type: 'string' }, password: { type: 'string' } },
+    },
+  })
   @ApiResponse({ status: 200, description: 'Return the user info and token.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   signin(@Body() dto: AuthDto) {

@@ -26,7 +26,23 @@ export class MovieController {
   ) {}
 
   @ApiOperation({ summary: 'Create movie' })
-  @ApiBody({ type: MovieDto })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        movie: {
+          type: 'string',
+        },
+        description: {
+          type: 'string',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'The movie has been successfully created.',
+  })
   @ApiResponse({
     status: 201,
     description: 'The movie has been successfully created.',
