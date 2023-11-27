@@ -1,0 +1,12 @@
+# Ignore .git directory
+.git
+
+# Ignore node_modules directory
+node_modules
+
+# Ignore any logs
+*.log
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db

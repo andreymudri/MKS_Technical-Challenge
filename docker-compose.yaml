@@ -21,6 +21,26 @@ services:
     networks:
       - backend_challenge
 
+  server:
+    build: .
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DATABASE: "backend_challenge"
+      PORT: 3000
+      MODE: DEV
+      RUN_MIGRATIONS: true
+      REDIS_URL: redis://redis:6379
+    networks:
+      - backend_challenge
+
 volumes:
   postgres_data:
 
