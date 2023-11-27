@@ -13,6 +13,7 @@ import { MovieDto } from './dto';
 import { JwtGuard } from '../auth/guard';
 import { ConfigService } from '@nestjs/config';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { RedisService } from '../redis/redis.service';
 
 @ApiTags('Movie')
 @UseGuards(JwtGuard)
@@ -21,6 +22,7 @@ export class MovieController {
   constructor(
     private readonly movieService: MovieService,
     private config: ConfigService,
+    private readonly redisService: RedisService,
   ) {}
 
   @ApiOperation({ summary: 'Create movie' })
@@ -44,12 +46,12 @@ export class MovieController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async findAll() {
     let movies;
-    movies = await this.movieService.redisClient.get('movies');
+    movies = await this.redisService.redisClient.get('movies');
     if (movies) {
       return JSON.parse(movies);
     }
     movies = await this.movieService.findAll();
-    await this.movieService.redisClient.set('movies', JSON.stringify(movies));
+    await this.redisService.redisClient.set('movies', JSON.stringify(movies));
 
     return movies;
   }
