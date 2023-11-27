@@ -15,8 +15,10 @@ export class MovieService {
     private readonly entityManager: EntityManager,
     private config: ConfigService,
   ) {
-    this.redisClient = new RedisClient();
-    this.redisClient.connect(this.config.get('REDIS_URL'));
+    if (!this.redisClient || !this.redisClient.status) {
+      this.redisClient = new RedisClient();
+      this.redisClient.connect(this.config.get('REDIS_URL'));
+    }
   }
   create(createMovieDto: MovieDto) {
     const CreateMovie = this.movieRepository.create(createMovieDto);
